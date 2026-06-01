@@ -5,15 +5,12 @@ import "leaflet/dist/leaflet.css";
 const Coverage = () => {
   const [centers, setCenters] = useState([]);
 
-  fetch('./serviceCenter.json')
-  .then(res => res.json())
-  .then(data => { setCenters(data); 
-  })
-  .catch(error => 
-    { console.error(error); 
-      
-    });
-
+  useEffect(() => {
+    fetch('./serviceCenter.json')
+      .then((res) => res.json())
+      .then((data) => setCenters(data))
+      .catch((error) => console.error(error));
+  }, []);
   const position = [23.685, 90.3563];
 
   return (

@@ -19,3 +19,39 @@
   font-optical-sizing: auto;
   font-style: normal;
 }
+
+/* *** */
+.navbar-container .active {
+  padding: 0.3rem 0.9rem;
+  border-radius: 9999px; /* rounded-full */
+  color: white;
+  font-weight: 500; /* font-medium */
+
+  background: linear-gradient(
+    to right,
+    rgb(124, 58, 237), /* violet-600 */
+    rgb(192, 38, 211)  /* fuchsia-600 */
+  );
+
+  transition: all 0.3s ease;
+}
+
+.custom-btn:hover {
+  transform: scale(1.08);
+}
+
+/* **** */
+.navbar-small-device .active {
+  padding: 0.3rem 0.9rem;
+  border-radius: 9999px; /* rounded-full */
+  color: white;
+  font-weight: 600; /* font-medium */
+
+  background: linear-gradient(
+    to right,
+    rgb(124, 58, 237), /* violet-600 */
+    rgb(192, 38, 211)  /* fuchsia-600 */
+  );
+
+  transition: all 0.3s ease;
+}

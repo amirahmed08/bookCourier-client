@@ -11,6 +11,11 @@ import About from "../Pages/About";
 import PrivateRoute from "./PrivateRoute";
 import Librarian from "../Pages/Auth/Librarian";
 import SendBook from "../Pages/SendBook";
+import Dashboard from "../Pages/Dashboard/Dashboard";
+import MyBooks from "../Pages/Dashboard/MyBooks";
+import Payment from "../Pages/Dashboard/Payment";
+import PaymentSuccess from "../Pages/Dashboard/PaymentSuccess";
+import PaymentCancelled from "../Pages/Dashboard/PaymentCancelled";
 
 
 
@@ -58,6 +63,28 @@ const router = createBrowserRouter([
         Component: Register,
       },
 
+    ]
+  },
+  {
+    path: '/my-dashboard',
+    element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
+    children: [
+      {
+        path: 'my-books',
+        Component: MyBooks,
+      },
+      {
+        path: 'payment/:paymentId',
+        Component: Payment,
+      },
+      {
+        path: 'payment-success',
+        Component: PaymentSuccess,
+      },
+      {
+        path: 'payment-cancelled',
+        Component: PaymentCancelled,
+      }
     ]
   },
   {
