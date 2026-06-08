@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../hooks/useAuth';
 import { Navigate } from 'react-router';
+import Swal from 'sweetalert2';
 
 const Login = () => {
 
@@ -13,13 +14,20 @@ const Login = () => {
   const { signInUser, signInGoogle } = useAuth();
 
   const location = useLocation();
-  console.log('in the login page ', location);  
+  console.log('in the login page ', location);
   const navigate = useNavigate();
 
   const handleGoogleSignIn = () => {
     signInGoogle()
       .then(result => {
         console.log(result.user)
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Your work has been saved",
+          showConfirmButton: false,
+          timer: 1500
+        });
         navigate(location?.state || '/') // navigate to the page user wanted to access before login, or to home page if no specific page
       })
       .catch(error => {
@@ -30,13 +38,20 @@ const Login = () => {
   const handleLogin = (data) => {
     console.log('after login', data)
     signInUser(data.email, data.password)
-    .then(result => {
-      console.log(result.user)
-      navigate(location?.state || '/') // navigate to the page user wanted to access before login, or to home page if no specific page
-    })
-    .catch(error => {
-      console.log(error.message)
-    })
+      .then(result => {
+        console.log(result.user)
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Your work has been saved",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        navigate(location?.state || '/') // navigate to the page user wanted to access before login, or to home page if no specific page
+      })
+      .catch(error => {
+        console.log(error.message)
+      })
   }
 
   return (
@@ -65,7 +80,7 @@ const Login = () => {
           <button onClick={handleGoogleSignIn} className="btn btn-outline w-full mb-2">
             <span className="flex items-center gap-2 justify-center">
               <FcGoogle className='text-xl' />
-            <p>Continue with Google</p>
+              <p>Continue with Google</p>
             </span>
           </button>
 
@@ -104,25 +119,25 @@ const Login = () => {
               <p className="text-red-500 text-sm">
                 Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character
               </p>}
-          
 
-          <div className="flex justify-between mt-4 text-sm">
-            <label className="flex items-center gap-2">
-              <input type="checkbox" />
-              Remember me
-            </label>
 
-            <a
-              href="#"
-              className="text-violet-600"
-            >
-              Forgot Password?
-            </a>
-          </div>
+            <div className="flex justify-between mt-4 text-sm">
+              <label className="flex items-center gap-2">
+                <input type="checkbox" />
+                Remember me
+              </label>
 
-          <button className="btn bg-violet-600 hover:bg-violet-700 text-white w-full mt-6">
-            Login
-          </button>
+              <a
+                href="#"
+                className="text-violet-600"
+              >
+                Forgot Password?
+              </a>
+            </div>
+
+            <button className="btn bg-violet-600 hover:bg-violet-700 text-white w-full mt-6">
+              Login
+            </button>
           </form>
 
           <p className="text-center mt-5">

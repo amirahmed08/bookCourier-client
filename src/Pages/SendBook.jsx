@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router";
 
 
 const SendBook = () => {
@@ -14,6 +15,8 @@ const SendBook = () => {
 
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
+  const navigate = useNavigate();
+
 
   const handleSendBook = (data) => {
     const quantity = Number(data.quantity);
@@ -49,10 +52,13 @@ const SendBook = () => {
           .then(res => {
             console.log(res.data);
             if (res.data.insertedId) {
+              navigate('/my-dashboard/my-books');
               Swal.fire({
-                title: "Success!",
-                text: "Order placed successfully.",
-                icon: "success"
+                position: "top-end",
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500
               });
             }
           })

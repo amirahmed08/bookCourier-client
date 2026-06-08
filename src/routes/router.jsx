@@ -16,6 +16,8 @@ import MyBooks from "../Pages/Dashboard/MyBooks";
 import Payment from "../Pages/Dashboard/Payment";
 import PaymentSuccess from "../Pages/Dashboard/PaymentSuccess";
 import PaymentCancelled from "../Pages/Dashboard/PaymentCancelled";
+import PaymentHistory from "../Pages/Dashboard/PaymentHistory";
+import LibrarianApprove from "../Pages/Dashboard/LibrarianApprove";
 
 
 
@@ -84,6 +86,14 @@ const router = createBrowserRouter([
       {
         path: 'payment-cancelled',
         Component: PaymentCancelled,
+      },
+      {
+        path: 'payment-history',
+        Component: PaymentHistory,
+      },
+      {
+        path: 'approve-librarian',
+        Component: LibrarianApprove,
       }
     ]
   },

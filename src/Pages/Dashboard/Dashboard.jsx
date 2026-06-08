@@ -1,5 +1,7 @@
 import React from 'react'
+import { FaHistory } from 'react-icons/fa'
 import { IoArrowBackCircleOutline } from 'react-icons/io5'
+import { MdLocalLibrary } from 'react-icons/md'
 import { NavLink, Outlet } from 'react-router'
 
 const Dashboard = () => {
@@ -50,6 +52,24 @@ const Dashboard = () => {
             <NavLink to="/my-dashboard/my-books" className="flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor" className="my-1.5 inline-block size-4"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
               <span className="is-drawer-close:hidden ml-2">My Books</span>
+            </NavLink>
+          </button>
+        </li>
+        <li>
+          <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right mt-5" data-tip="My Books">
+            {/* My Books icon */}
+            <NavLink to="/my-dashboard/approve-librarian" className="flex items-center">
+              <MdLocalLibrary className='text-lg' />
+              <span className="is-drawer-close:hidden ml-2">My Books</span>
+            </NavLink>
+          </button>
+        </li>
+        <li>
+          <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right mt-5" data-tip="Payment History">
+            {/* My Books icon */}
+            <NavLink to="/my-dashboard/payment-history" className="flex items-center">
+              <FaHistory className='text-lg' />
+              <span className="is-drawer-close:hidden ml-2">Payment History</span>
             </NavLink>
           </button>
         </li>

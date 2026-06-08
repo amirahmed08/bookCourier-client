@@ -5,7 +5,7 @@ import useAxiosSecure from '../../hooks/useAxiosSecure'
 import { FaMagnifyingGlass, FaTrashCan } from 'react-icons/fa6'
 import { FaEdit } from 'react-icons/fa'
 import Swal from 'sweetalert2'
-import { Link } from 'react-router'
+import { Link, NavLink } from 'react-router'
 
 
 
@@ -86,7 +86,7 @@ const MyBooks = () => {
                                 <td>
                                     {
                                         order.paymentStatus === 'paid' ?
-                                            <span className='text-green-500 font-semibold'>Paid</span>
+                                            <span className='text-green-500 font-semibold'><NavLink to={`/my-dashboard/payment-success?session_id=${order.paymentSessionId}`}>Paid</NavLink></span>
                                             :
                                             <button onClick={() => handlePayment(order)} className='btn btn-primary font-semibold'>Pay</button>
                                     }

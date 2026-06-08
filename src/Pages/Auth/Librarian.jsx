@@ -1,11 +1,13 @@
 import React from "react";
 import loginImg from "../../assets/riderImage.png";
 import { FcGoogle } from "react-icons/fc";
-import { MdEmail } from "react-icons/md";
-import { FaLock } from "react-icons/fa";
+import { MdAccountBox, MdDriveFileRenameOutline, MdEmail } from "react-icons/md";
+import { FaLock, FaPhoneAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const Librarian = () => {
     const navigate = useNavigate();
@@ -15,10 +17,10 @@ const Librarian = () => {
         handleSubmit,
         formState: { errors },
     } = useForm();
+    const axiosSecure = useAxiosSecure()
+    const { user, signInUser, signInGoogle } = useAuth();
 
-    const { signInUser, signInGoogle } = useAuth();
-
-    const handleGoogleSignIn = () => {
+    const handleGoogleLibrarianSignIn = () => {
         signInGoogle()
             .then((result) => {
                 console.log(result.user);
@@ -29,15 +31,20 @@ const Librarian = () => {
             });
     };
 
-    const handleLogin = (data) => {
-        signInUser(data.email, data.password)
-            .then((result) => {
-                console.log(result.user);
-                navigate("/");
+    const handleBeALibrarianLogin = (data) => {
+            console.log(data )
+            axiosSecure.post('/librarian', data)
+            .then(res => {
+                if(res.data.insertedId){
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Book has ready for send",
+                        showCancelButton: false,
+                        timer: 2500
+                    })
+                }
             })
-            .catch((error) => {
-                console.log(error.message);
-            });
     };
 
     return (
@@ -76,7 +83,7 @@ const Librarian = () => {
 
                         {/* Google Login */}
                         <button
-                            onClick={handleGoogleSignIn}
+                            onClick={handleGoogleLibrarianSignIn}
                             className="btn btn-outline w-full h-14 rounded-xl hover:scale-[1.02] transition-all duration-300"
                         >
                             <FcGoogle className="text-2xl" />
@@ -86,9 +93,62 @@ const Librarian = () => {
                         <div className="divider my-6">OR</div>
 
                         <form
-                            onSubmit={handleSubmit(handleLogin)}
+                            onSubmit={handleSubmit(handleBeALibrarianLogin)}
                             className="space-y-5"
                         >
+
+                            {/* Name */}
+                            <div className="relative group">
+                                <MdDriveFileRenameOutline className="absolute left-4 top-1/2 -translate-y-1/2 text-violet-500 text-xl group-focus-within:scale-110 transition-all duration-300" />
+
+                                <input
+                                    {...register("name", {
+                                        required: true,
+                                    })}
+                                    type="text"
+                                    placeholder=" "
+                                    className="peer w-full h-14 pl-12 pr-4 border border-gray-300 rounded-xl bg-white focus:border-violet-500 focus:ring-4 focus:ring-violet-100 outline-none transition-all duration-300"
+                                />
+
+                                <label className="absolute left-12 top-4 text-gray-500 bg-white px-1 transition-all duration-300 peer-focus:-top-2 peer-focus:left-4 peer-focus:text-xs peer-focus:text-violet-600 peer-[&:not(:placeholder-shown)]:-top-2 peer-[&:not(:placeholder-shown)]:left-4 peer-[&:not(:placeholder-shown)]:text-xs">
+                                    Full Name
+                                </label>
+                            </div>
+                            {/* Phone Number */}
+                            <div className="relative group">
+                                <FaPhoneAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-violet-500 text-xl group-focus-within:scale-110 transition-all duration-300" />
+
+                                <input
+                                    {...register("phone", {
+                                        required: true,
+                                    })}
+                                    type="number"
+                                    placeholder=" "
+                                    className="peer w-full h-14 pl-12 pr-4 border border-gray-300 rounded-xl bg-white focus:border-violet-500 focus:ring-4 focus:ring-violet-100 outline-none transition-all duration-300"
+                                />
+
+                                <label className="absolute left-12 top-4 text-gray-500 bg-white px-1 transition-all duration-300 peer-focus:-top-2 peer-focus:left-4 peer-focus:text-xs peer-focus:text-violet-600 peer-[&:not(:placeholder-shown)]:-top-2 peer-[&:not(:placeholder-shown)]:left-4 peer-[&:not(:placeholder-shown)]:text-xs">
+                                    Phone Number
+                                </label>
+                            </div>
+                            {/* NID Number */}
+                            <div className="relative group">
+                                <MdAccountBox className="absolute left-4 top-1/2 -translate-y-1/2 text-violet-500 text-xl group-focus-within:scale-110 transition-all duration-300" />
+
+                                <input
+                                    {...register("nid", {
+                                        required: true,
+                                    })}
+                                    type="number"
+                                    placeholder=" "
+                                    className="peer w-full h-14 pl-12 pr-4 border border-gray-300 rounded-xl bg-white focus:border-violet-500 focus:ring-4 focus:ring-violet-100 outline-none transition-all duration-300"
+                                />
+
+                                <label className="absolute left-12 top-4 text-gray-500 bg-white px-1 transition-all duration-300 peer-focus:-top-2 peer-focus:left-4 peer-focus:text-xs peer-focus:text-violet-600 peer-[&:not(:placeholder-shown)]:-top-2 peer-[&:not(:placeholder-shown)]:left-4 peer-[&:not(:placeholder-shown)]:text-xs">
+                                    NID Number
+                                </label>
+                            </div>
+
                             {/* Email */}
                             <div>
                                 <div className="relative group">
@@ -179,19 +239,9 @@ const Librarian = () => {
                                 type="submit"
                                 className="w-full h-14 rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 text-white font-semibold shadow-lg hover:shadow-violet-300 hover:scale-[1.02] active:scale-95 transition-all duration-300"
                             >
-                                Login
+                                Librarian
                             </button>
                         </form>
-
-                        <p className="text-center mt-6 text-gray-600">
-                            Don't have an account?
-                            <Link
-                                to="/register"
-                                className="ml-2 text-violet-600 font-semibold hover:text-violet-800 transition"
-                            >
-                                Register
-                            </Link>
-                        </p>
 
                     </div>
                 </div>

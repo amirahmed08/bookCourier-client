@@ -4,45 +4,64 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
+import useAxiosSecure from "../../hooks/useAxiosSecure"; 
+import Swal from "sweetalert2";
+
 
 const Register = () => {
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
-
   const { registerUser, signInGoogle, updateUserProfile } = useAuth()
-
   const password = watch('password');
-   
   const location = useLocation();
-
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
   const handleRegistration = (data) => {
-    console.log('after registration', data.photo[0])
+    // console.log('after registration', data.photo[0])
     const profileImage = data.photo[0];
 
 
     registerUser(data.email, data.password)
       .then(result => {
-        console.log(result.user)
+        // console.log(result.user)
 
         // store the image in form data
 
-          const formData = new FormData();
-          formData.append('image', profileImage);
+        const formData = new FormData();
+        formData.append('image', profileImage);
 
-          // send the photo in the imgbb to store and get the url
+        // send the photo in the imgbb to store and get the url
 
-          const image_API_URL =`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`
-          axios.post(image_API_URL, formData)
+        const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`
+        axios.post(image_API_URL, formData)
           .then(res => {
-            console.log('after image upload', res.data.data.url)
+            const photoURL = res.data.data.url
 
-              // update user profile to firebase auth
+            // store user in the database
+            const userInfo = {
+              email: data.email,
+              displayName: data.name,
+              photoURL: photoURL
+            }
+            axiosSecure.post('/users', userInfo)
+              .then(res => {
+                if (res.data.insertedId) {
+                  console.log('user created in the database')
+                  Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Your work has been saved",
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+                }
+              })
 
+            // update user profile to firebase auth
             const userProfile = {
               displayName: data.name,
-              photoURL: res.data.data.url
+              photoURL: photoURL
             }
             updateUserProfile(userProfile)
               .then(() => {
@@ -63,7 +82,24 @@ const Register = () => {
     signInGoogle()
       .then(result => {
         console.log(result.user)
-        Navigate('/')
+
+        const userInfo = {
+          email: result.user.email,
+          displayName: result.user.displayName,
+          photoURL: result.user.photoURL
+        }
+        axiosSecure.post('/users', userInfo)
+          .then(res => {
+            console.log('user data has been stored')
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Your work has been saved",
+              showConfirmButton: false,
+              timer: 1500
+            });
+            Navigate(location.state || '/')
+          })
       })
       .catch(error => {
         console.log(error.message)
