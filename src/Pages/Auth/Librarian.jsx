@@ -114,6 +114,23 @@ const Librarian = () => {
                                     Full Name
                                 </label>
                             </div>
+                            {/* District */}
+                            <div className="relative group">
+                                <MdDriveFileRenameOutline className="absolute left-4 top-1/2 -translate-y-1/2 text-violet-500 text-xl group-focus-within:scale-110 transition-all duration-300" />
+
+                                <input
+                                    {...register("district", {
+                                        required: true,
+                                    })}
+                                    type="text"
+                                    placeholder=" "
+                                    className="peer w-full h-14 pl-12 pr-4 border border-gray-300 rounded-xl bg-white focus:border-violet-500 focus:ring-4 focus:ring-violet-100 outline-none transition-all duration-300"
+                                />
+
+                                <label className="absolute left-12 top-4 text-gray-500 bg-white px-1 transition-all duration-300 peer-focus:-top-2 peer-focus:left-4 peer-focus:text-xs peer-focus:text-violet-600 peer-[&:not(:placeholder-shown)]:-top-2 peer-[&:not(:placeholder-shown)]:left-4 peer-[&:not(:placeholder-shown)]:text-xs">
+                                    District Name
+                                </label>
+                            </div>
                             {/* Phone Number */}
                             <div className="relative group">
                                 <FaPhoneAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-violet-500 text-xl group-focus-within:scale-110 transition-all duration-300" />

@@ -1,5 +1,6 @@
 import React from 'react'
 import { FaHistory } from 'react-icons/fa'
+import { FaUserLock } from 'react-icons/fa6'
 import { IoArrowBackCircleOutline } from 'react-icons/io5'
 import { MdLocalLibrary } from 'react-icons/md'
 import { NavLink, Outlet } from 'react-router'
@@ -56,11 +57,20 @@ const Dashboard = () => {
           </button>
         </li>
         <li>
-          <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right mt-5" data-tip="My Books">
+          <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right mt-5" data-tip="Librarian ">
             {/* My Books icon */}
             <NavLink to="/my-dashboard/approve-librarian" className="flex items-center">
               <MdLocalLibrary className='text-lg' />
-              <span className="is-drawer-close:hidden ml-2">My Books</span>
+              <span className="is-drawer-close:hidden ml-2">Librarian</span>
+            </NavLink>
+          </button>
+        </li>
+        <li>
+          <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right mt-5" data-tip="User Management">
+            {/* My Books icon */}
+            <NavLink to="/my-dashboard/user-management" className="flex items-center">
+              <FaUserLock className='text-lg' />
+              <span className="is-drawer-close:hidden ml-2">User Management</span>
             </NavLink>
           </button>
         </li>

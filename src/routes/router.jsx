@@ -18,6 +18,7 @@ import PaymentSuccess from "../Pages/Dashboard/PaymentSuccess";
 import PaymentCancelled from "../Pages/Dashboard/PaymentCancelled";
 import PaymentHistory from "../Pages/Dashboard/PaymentHistory";
 import LibrarianApprove from "../Pages/Dashboard/LibrarianApprove";
+import UserManagement from "../Pages/Dashboard/UserManagement";
 
 
 
@@ -94,6 +95,10 @@ const router = createBrowserRouter([
       {
         path: 'approve-librarian',
         Component: LibrarianApprove,
+      },
+      {
+        path: 'user-management',
+        Component: UserManagement,
       }
     ]
   },
